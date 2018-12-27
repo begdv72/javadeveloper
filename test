@@ -62,3 +62,66 @@ public class InputTwoNumbers {
         return i;
     }
 }
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class InputThreeNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Упражнение 1");
+        System.out.print("Введите первое число ");
+        int k = scanner.nextInt();
+        System.out.print("Введите второе число ");
+        int t = scanner.nextInt();
+        System.out.print("Введите третье число ");
+        int n = scanner.nextInt();
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr1[i] = k * (i - t);
+        }
+        for (int i = 0; i < n; i++) {
+            arr2[i] = k + t - i;
+        }
+        System.out.println(Arrays.toString(arr1));
+        System.out.println(Arrays.toString(arr2));
+    }
+}
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Упражнение 3");
+        System.out.println("Наберите сумму чисел равную 21 (или введите 0 для завершения)");
+
+        int sum = 0;
+        int userNumber = -1;
+
+        while (sum != 21) {
+            System.out.print("Введите число: ");
+            userNumber = scanner.nextInt();
+            if (userNumber == 0) {
+                break;
+            }
+            if (userNumber < 0 || userNumber > 10) {
+                System.out.println("Нужно ввести число от 0 до 10");
+            } else {
+                sum += userNumber;
+            }
+            System.out.println("Сумма равна " + sum);
+            if (sum > 21) {
+                break;
+            }
+        }
+
+        if (sum == 21) {
+            System.out.println("Сумма набрана");
+        } else {
+            System.out.println("Попробуйте выиграть в следующий раз");
+        }
+    }
+}
