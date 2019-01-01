@@ -1,0 +1,95 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class TicTacToe {
+    // Символ, которым заполним пустое поле
+    final static char BLANK_SYMBOL = '_';
+    // Определим размер таблицы, например 3 на 3
+    final static int ROW_SIZE = 3;
+    // создадим массив символов под размер таблицы
+    static char[] field = new char[ROW_SIZE * ROW_SIZE];
+    public static void main(String[] args) {
+        System.out.println("Упражнение 6");
+
+        // Или можем это сделать с помощью библиотечного метода Arrays.fill();
+        // которому передается массив для заполнения первым параметром и символ для заполнения вторым параметром
+        Arrays.fill(field, BLANK_SYMBOL);
+        String[] users = {"First", "Second"};
+
+        while (true) {
+            // Выводим поле на экран
+            for (int u = 0; u < users.length; u++) {
+                int userMove = readUserMove(users[u]);
+                for (int i = 0; i < field.length; i++) {
+                    System.out.print(field[i] + " ");
+                    if ((i + 1) % ROW_SIZE == 0) {
+                        System.out.println();
+                    }
+                }
+                if(userMove == 0)
+                    return;
+            }
+        }
+    }
+    private static int readUserMove(String user){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Пользователь " + user + " - Ваш ход! ");
+        // В userInput сохраним номер ячейки, который ввел пользователь
+        int userInput = -1; // по умолчанию присвоим, например, -1
+        // будем крутиться в вечном цикле, пока пользователь не введет все так, как положено
+        do {
+            System.out.print("Выберите номер ячейки (от 1 до " + ROW_SIZE * ROW_SIZE + ", кроме занятых) или 0 для выхода ");
+            userInput = scanner.nextInt();
+            // считываем перевод строчки, чтобы очистить буффер
+            // иначе он из буффера прочитается при следующем вводе символа
+            scanner.nextLine();
+            // здесь хитрое сравнение
+            // если пользователь введет 0, то мы выйдем из цикла и не будем проверять остаток условия
+            // если введет меньше 1 или больше 9, то тоже выйдем из цикла
+            // и не будем лезть в массив field[userInput - 1]
+            // поэтому не выйдем за его пределы
+        } while (!(userInput == 0 ||
+                (userInput >= 1 && userInput <= ROW_SIZE * ROW_SIZE && field[userInput - 1] == BLANK_SYMBOL)));
+
+        // Выходим, если пользователь ввел 0
+        if (userInput == 0) {
+            return 0;
+        }
+
+        // В цикле спрашиваем до тех пор, пока пользователь не введет какую-то букву
+        // Если он просто нажмет Enter попросим ввести еще раз
+        // Обратите внимание, что в этом цикле мы используеум конструкцию do-while
+        // Так код получается более лаконичным
+        String line;
+        do {
+            System.out.println("Введите символ, который надо поставить в ячейку ");
+            line = scanner.nextLine();
+        } while (line.isEmpty());
+
+        char symbol = line.charAt(0);
+        field[userInput - 1] = symbol;
+
+        // Если бы мы не проверяли на пустой ввод выше в цикле, то здесь могла бы произойти ошибка
+        for (int i = 0; i < ROW_SIZE; i++) {
+            if(field[i * ROW_SIZE] == symbol && field[i * ROW_SIZE + 1] == symbol && field[i * ROW_SIZE + 2] == symbol){
+                System.out.println("Пользователь " + user + " поздравляем! Вы победили!");
+                return 0;
+            }
+        }
+        for (int i = 0; i < ROW_SIZE; i++) {
+             if(field[i]  == symbol && field[ROW_SIZE + i] == symbol && field[2 * ROW_SIZE + i] == symbol){
+                System.out.println("Пользователь " + user + " поздравляем! Вы победили!");
+                return 0;
+            }
+        }
+        if(field[0] == symbol && field[4] == symbol && field[8] == symbol){
+            System.out.println("Пользователь " + user + " поздравляем! Вы победили!");
+            return 0;
+        }
+        if(field[2] == symbol && field[4] == symbol && field[6] == symbol){
+            System.out.println("Пользователь " + user + " поздравляем! Вы победили!");
+            return 0;
+        }
+        return 1;
+    }
+}
