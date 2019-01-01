@@ -18,7 +18,7 @@ public class SeaBattle {
         int shipPosition;
         do {
             shipPosition = (int) (Math.random() * FIELD_SIZE) + 1;
-        } while (((shipPosition - shipZize - 1) < 0) || ((shipPosition + shipZize + 1) > FIELD_SIZE));
+        } while (((shipPosition - shipZize) < 0) || ((shipPosition + shipZize - 1) > FIELD_SIZE));
         Ship ship = new Ship(shipZize, shipPosition);
         ship.show(cells);
 
