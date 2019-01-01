@@ -1,0 +1,99 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SeaBattle2 {
+    public static void main(String[] args) {
+        doGame();
+    }
+
+    static int SHIP_SIZE = 3;
+    static int SHIP_COUNT = 3;
+    static int FIELD_SIZE = 20;
+
+    private static void doGame() {
+        Scanner scanner = new Scanner(System.in);
+        char[] cells;
+        cells = new char[FIELD_SIZE];
+        Arrays.fill(cells, '.');
+        Ship[] ships = new Ship[3];
+
+        placeShips(ships, cells);
+
+        int shoot;
+        do {
+            System.out.println(cells);
+            System.out.println("Ваш ход: введите число от 1 до " + FIELD_SIZE);
+            while (true) {
+                if (scanner.hasNextInt()) {
+                    shoot = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } else {
+                    scanner.nextLine();
+                }
+            }
+            System.out.println("Ваш выстрел: " + shoot);
+
+            switch (cells[shoot - 1]) {
+                case '.':
+                    System.out.println("Промах");
+                    cells[shoot - 1] = '*';
+                    break;
+                case 'X':
+                    System.out.println("Попал");
+                    cells[shoot - 1] = '#';
+                    break;
+                case '#':
+                case '*':
+                    System.out.println("Уже стреляли");
+                    break;
+            }
+        } while (!hitted(ships, cells, shoot));
+
+        System.out.println("Все корабли потоплены!");
+        System.out.println(cells);
+    }
+
+    //Все корабли потоплены?
+    private static boolean hitted(Ship[] ships, char[] cells, int shoot) {
+        boolean result = true;
+        for (int i = 0; i < SHIP_COUNT; i++) {
+            if (ships[i].hitted(cells)) {
+                if (ships[i].isPlace(shoot)) {
+                    System.out.println("Корабль " + (i + 1) + " Потоплен!");
+                }
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    //Проверить, не заняты ли ячейки другими кораблями
+    private static boolean isOccupied(Ship[] ships, int position, int size) {
+        boolean result = false;
+        for (int i = 0; i < SHIP_COUNT; i++) {
+            if (ships[i] != null) {
+                if (ships[i].isOccupied(position, size)) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    //Разместить корабли на игровом поле
+    private static void placeShips(Ship[] ships, char[] cells) {
+        for (int i = 0; i < SHIP_COUNT; i++) {
+            int shipZize = (int) (Math.random() * SHIP_SIZE) + 1;
+            int shipPosition;
+            do {
+                shipPosition = (int) (Math.random() * FIELD_SIZE) + 1;
+            } while (((shipPosition - shipZize) < 0) || ((shipPosition + shipZize - 1) > FIELD_SIZE) || isOccupied(ships, shipPosition, shipZize));
+            Ship ship = new Ship(shipZize, shipPosition);
+            ship.show(cells);
+            ships[i] = ship;
+        }
+    }
+}
