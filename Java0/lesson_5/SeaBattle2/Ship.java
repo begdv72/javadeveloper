@@ -13,7 +13,7 @@ public class Ship {
             cells[i - 1] = 'X';
     }
 
-    //Корабль подбит?
+    //Корабль потоплен?
     public boolean hitted(char[] cells) {
         boolean result = true;
         for (int i = this.position; i < this.position + this.size; i++) {
