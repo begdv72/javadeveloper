@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Ship {
     int size;
     int position;
@@ -10,12 +8,12 @@ public class Ship {
         this.size = size;
         this.position = position;
     }
-
+//Отображение корабля на игровом поле
     public void show(char[] cells) {
         for (int i = position; i < position + size; i++)
             cells[i - 1] = 'X';
     }
-
+//Корабль потоплен?
     public boolean hitted(char[] cells) {
         boolean result = true;
         for (int i = position; i < position + size; i++) {
@@ -27,3 +25,4 @@ public class Ship {
         return result;
     }
 }
+
