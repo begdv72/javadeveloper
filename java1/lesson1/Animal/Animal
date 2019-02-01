@@ -1,0 +1,10 @@
+public class Animal extends Object{
+    String name;
+    int age;
+    void sleep(){
+        System.out.println("Я сплю");
+    }
+    void feed(){
+        System.out.println("Я ем");
+    }
+}
